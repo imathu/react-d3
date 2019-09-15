@@ -1,9 +1,12 @@
 Simple React d3.js examples
 
 ## run the code
-The code is built with create-react-app. to run the examples in the various demo folders, just use 
+The code is built with create-react-app. To run the examples in the various demo folders, run
 
-`yarn start`
+```
+  #> yarn install
+  #> yarn start
+```
 
 This runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
