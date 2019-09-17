@@ -1,91 +1,54 @@
+import React, { useState, useEffect } from 'react';
+import { PropTypes } from 'prop-types';
 import * as d3 from 'd3';
 
-class D3Component {
+// S3 treemap example for React
+// using React for manipulating the DOM
+// using S3 for calculating the treemap and layout
 
-  containerEl;
-  props;
-  svg;
+const D3Treemap = ({ data, width, height, title }) => {
+  const [treemapData, setTreemapData] = useState(null);
 
-  constructor(containerEl, props, title=false) {
-    this.containerEl = containerEl;
-    this.props = props;
-    const { width, height, data } = props;
-    this.data = data;
-    this.title = title;
-    this.svg = d3.select(containerEl)
-      .append('svg')
-      .style('background-color', 'white')
-      .attr('width', width)
-      .attr('height', height);
-    this.updateDatapoints();
-  }
+  useEffect(() => {
+    // initialize the treemap using s3 hierarchy & treemap functions
+    const hierarchy = d3.hierarchy(data).sum(function(d){return d.value});
+    const treemap = d3.treemap()
+      .paddingTop((title) ? 28 : 0)
+      .paddingRight(7)
+      .paddingInner(3) 
+      .size([width, height])(hierarchy)
+    setTreemapData(treemap);
+  }, [data, width, height, title]);
 
-  draw = (width, height) => {
-    const { svg } = this;
-    d3.treemap()
-    .paddingTop((this.title) ? 28 : 0)
-    .paddingRight(7)
-    .paddingInner(3) 
-    .size([width, height])(this.root)
-
-    svg
-    .selectAll("rect")
-    .data(this.root.leaves())
-    .enter()
-    .append("rect")
-      .attr('x', function (d) { return d.x0; })
-      .attr('y', function (d) { return d.y0; })
-      .attr('width', function (d) { return d.x1 - d.x0; })
-      .attr('height', function (d) { return d.y1 - d.y0; })
-      .style("stroke", "black")
-      .style("fill", d => {
-        return (d.data.state === true) ? "#43C275" : "#C5202A";
-      })
-
-    svg
-      .selectAll("text")
-      .data(this.root.leaves())
-      .enter()
-      .append("text")
-        .attr("x", function(d){ return d.x0+5})    // +10 to adjust position (more right)
-        .attr("y", function(d){ return d.y0+20})    // +20 to adjust position (lower)
-        .text(function(d){ return d.data.name })
-        .attr("font-size", "15px")
-        .attr("fill", "white")
-
-      if (this.title) {
-        svg
-      .selectAll("titles")
-      .data(this.root.descendants().filter(function(d){return d.depth===1}))
-      .enter()
-      .append("text")
-        .attr("x", function(d){ return d.x0})
-        .attr("y", function(d){ return d.y0+21})
-        .text(function(d){ return d.data.name })
-        .attr("font-size", "19px")
-        .attr("fill",  "gray")
-      }
-  }
-
-  updateDatapoints = () => {
-    const { props: { width, height, data } } = this;
-    const root = d3.hierarchy(data).sum(function(d){ return d.value})
-          this.root = root;
-          this.draw(width, height);        
-  }
-
-  setActiveDatapoint = (d, node) => {
-    d3.select(node).style('fill', 'yellow');
-    this.props.onDatapointClick(d);
-  }
-
-  resize = (width, height) => {
-    const { svg } = this;
-    svg.attr('width', width)
-    .attr('height', height);
-    svg.selectAll("*").remove();
-    this.draw(width, height);
-  }
+  return (
+    <svg style={{ backgroundColor: 'white', width, height }}>
+      {treemapData && treemapData.leaves().map(d => (
+        <rect style={{
+          x: d.x0,
+          y: d.y0,
+          width: d.x1 - d.x0,
+          height: d.y1 - d.y0,
+          stroke: 'black',
+          fill: (d.data.state === true) ? "#43C275" : "#C5202A",
+        }} />
+      ))}
+      {treemapData && treemapData.leaves().map(d => (
+        <text x={d.x0 + 5} y={d.y0 + 20} fontSize='15px' fill='white'>{d.data.name}</text>
+      ))}
+      {title && treemapData && treemapData.descendants().filter(function(d){return d.depth===1}).map(d => (
+        <text x={d.x0} y={d.y0 + 21} fontSize='19px' fill='gray'>{d.data.name}</text>
+      ))}
+    </svg>
+  )
+}
+D3Treemap.propTypes = {
+  data: PropTypes.shape({}).isRequired,
+  height: PropTypes.number.isRequired,
+  width: PropTypes.number.isRequired,
+  title: PropTypes.bool,
+}
+D3Treemap.defaultProps = {
+  title: false,
 }
 
-export default D3Component;
+export default D3Treemap;

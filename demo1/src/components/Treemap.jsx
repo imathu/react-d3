@@ -4,13 +4,9 @@ import D3Treemap from './D3Treemap';
 
 const Treemap = ({data, height, title}) =>  {
   const [width, setWidth] = useState(300);
-  const [active, setActive] = useState(null);
   const refElement = useRef(null);
-  const [vis, setVis] = useState(null); 
 
   useEffect(handleResizeEvent, []);
-  useEffect(initVis, [ data ]);
-  useEffect(updateVisOnResize, [ width, height ]);
 
   useEffect(() => {
     setWidth(refElement.current.clientWidth);
@@ -22,7 +18,7 @@ const Treemap = ({data, height, title}) =>  {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(function() {
         setWidth(refElement.current.clientWidth);
-      }, 300);
+      }, 50);
     };
     window.addEventListener('resize', handleResize);
 
@@ -31,27 +27,14 @@ const Treemap = ({data, height, title}) =>  {
     };
   }
 
-  function initVis() {
-    if(data) {
-      const d3Props = {
-        data,
-        width,
-        height,
-        onDatapointClick: setActive
-      };
-      setVis(new D3Treemap(refElement.current, d3Props, title));
-    }
-  }
-
-  function updateVisOnResize() {
-    vis && vis.resize(width, height);
-  }
-
   return (
     <div className='react-world'>
       <Segment>
-        <div>{active}</div>
-        <div ref={refElement}/>
+        {data && (
+          <div ref={refElement}>
+            <D3Treemap data={data} height={height} width={width} title={title} />
+          </div>
+        )}
       </Segment>
     </div>
   );
