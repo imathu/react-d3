@@ -9,6 +9,7 @@ import './App.css';
 import Home from './components/Home';
 import Navigation from './components/boilerplate/Navigation';
 import TreemapExample from './components/Treemap';
+import SankeyExample from './components/Sankey';
 
 
 function App() {
@@ -25,6 +26,9 @@ function App() {
           </Route>
           <Route path="/treemap">
             <TreemapExample />
+          </Route>
+          <Route path="/sankey">
+            <SankeyExample />
           </Route>
         </Switch>
     </Router>

@@ -25,6 +25,14 @@ const Navigation = () => {
                 onClick={handleItemClick}
             > Treemap
             </Menu.Item>
+            <Menu.Item
+                as={Link}
+                to="/sankey"
+                name='sankey'
+                active={activeItem === 'sankey'}
+                onClick={handleItemClick}
+            > Sankey
+            </Menu.Item>
       </Menu>
     )
 }
