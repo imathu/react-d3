@@ -4,7 +4,7 @@ import Treemap from './Treemap';
 import { Header } from 'semantic-ui-react';
 import { data2, data1 } from './data';
 
-
+// example component that renders 2 different treemap examples
 const TreemapExample = () => (
     <>
         <div className="App">

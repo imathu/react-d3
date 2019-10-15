@@ -13,9 +13,10 @@ const D3Treemap = ({ data, width, height, title }) => {
     // initialize the treemap using s3 hierarchy & treemap functions
     const hierarchy = d3.hierarchy(data).sum(function(d){return d.value});
     const treemap = d3.treemap()
-      .paddingTop((title) ? 28 : 0)
+      .paddingTop((title) ? 28 : 1)
+      .paddingBottom(1)
       .paddingRight(7)
-      .paddingInner(3) 
+      .paddingInner(4) 
       .size([width, height])(hierarchy)
     setTreemapData(treemap);
   }, [data, width, height, title]);
@@ -28,12 +29,15 @@ const D3Treemap = ({ data, width, height, title }) => {
           y: d.y0,
           width: d.x1 - d.x0,
           height: d.y1 - d.y0,
-          stroke: 'black',
-          fill: (d.data.state === true) ? "#43C275" : "#C5202A",
+          stroke: (d.data.state === true) ? "#D2222D" : "#238823",
+          fill: (d.data.state === true) ? "#D2222D" : "#238823",
+          "fill-opacity": "0.8",
+          "stroke-width": "3",
+          rx: "3",
         }} />
       ))}
       {treemapData && treemapData.leaves().map(d => (
-        <text x={d.x0 + 5} y={d.y0 + 20} fontSize='15px' fill='white'>{d.data.name}</text>
+        <text x={d.x0 + 5} y={d.y0 + 20} fontSize='15px' fill='lightgray'>{d.data.name}</text>
       ))}
       {title && treemapData && treemapData.descendants().filter(function(d){return d.depth===1}).map(d => (
         <text x={d.x0} y={d.y0 + 21} fontSize='19px' fill='gray'>{d.data.name}</text>

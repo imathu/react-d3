@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Segment } from 'semantic-ui-react';
 import D3Treemap from './D3Treemap';
 
+// a pure React/JSX component that gets the component dimensions and 
+// render the D3Treemap component accordingly
 const Treemap = ({data, height, title}) =>  {
   const [width, setWidth] = useState(300);
   const refElement = useRef(null);
