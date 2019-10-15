@@ -14,7 +14,7 @@ const TreemapExample = () => (
             <Treemap data={data1} height={150}/>
         </div>
         <div style={{ paddingTop: '50px' }}>
-            <Header as='h2'>group of clusters</Header>
+            <Header as='h2'>cluster groups</Header>
             <Treemap data={data2} height={300} title={true}/>
         </div>
     </div>
