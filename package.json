@@ -6,6 +6,7 @@
     "d3": "^5.12.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.1.1",
     "semantic-ui-react": "^0.88.1"
   },
@@ -29,5 +30,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {}
 }
