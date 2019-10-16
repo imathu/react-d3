@@ -10,6 +10,8 @@ import * as chroma from 'chroma-js';
 
 // TODO: thanks: https://reactviz.holiday/sankey/
 
+import './Sankey.css';
+
 const SankeyNode = ({ name, x0, x1, y0, y1, color }) => (
     <rect x={x0} y={y0} width={x1 - x0} height={y1 - y0} fill={color}>
       <title>{name}</title>
@@ -18,12 +20,11 @@ const SankeyNode = ({ name, x0, x1, y0, y1, color }) => (
 
 const SankeyLink = ({ link, color }) => (
     <path
+        className="link"
         d={sankeyLinkHorizontal()(link)}
         style={{
-        fill: 'none',
-        strokeOpacity: '.5',
-        stroke: color,
-        strokeWidth: Math.max(1, link.width),
+            stroke: color,
+            strokeWidth: Math.max(1, link.width),
         }}
     />
 )
@@ -34,9 +35,9 @@ const D3Sankey = ({ data, width, height }) => {
   useEffect(() => {
     // initialize d3 sankey layout
     const s = sankey()
-        .nodeWidth(15)
-        .nodePadding(20)
-        .extent([[1, 1], [width - 1, height - 5]])(data);
+        .nodeWidth(25)
+        .nodePadding(30)
+        .extent([[1, 1], [width - 5, height - 5]])(data);
     setSankeyData(s);
   }, [data, width, height]);
 

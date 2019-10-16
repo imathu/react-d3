@@ -11,7 +11,7 @@ const Sankey = ({data, height, title}) =>  {
   useEffect(handleResizeEvent, []);
 
   useEffect(() => {
-    setWidth(refElement.current.clientWidth);
+    setWidth(refElement.current.clientWidth -10);
   }, [])
 
   function handleResizeEvent() {

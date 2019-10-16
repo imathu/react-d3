@@ -16,9 +16,16 @@ You will also see any lint errors in the console.
 
 # examples
 
-## Treemap -> a responsive Treemap exaple
+## responsive Treemap exaple
 
 ```
 #> components/Treemap/Treemap.jsx
 ```
+
+## responsible Sankey example
+
+```
+#> components/Sankey/Sankey.jsx
+```
+
 
