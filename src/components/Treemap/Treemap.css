@@ -1,0 +1,12 @@
+.node {
+    opacity: 0.8;
+    stroke-opacity: 0.8;
+    stroke: black;
+    stroke-width: 3;
+    rx: 3;
+}
+
+.node:hover {
+    opacity: 1;
+    cursor: pointer;
+}

@@ -1,10 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { PropTypes } from 'prop-types';
+import { Popup } from 'semantic-ui-react';
 import * as d3 from 'd3';
 
 // S3 treemap example for React
 // using React for manipulating the DOM
 // using S3 for calculating the treemap and layout
+
+import './Treemap.css';
+
+const Node = ({ d, color }) => (
+  <Popup
+    content={`nodename: ${d.data.name}`}
+    position='right center'
+    inverted
+    on='hover'
+    style={{ borderRadius: 3, opacity: 0.8, padding: '2' }}
+    trigger={
+      <rect
+        className="node"
+        style={{
+          x: d.x0,
+          y: d.y0,
+          width: d.x1 - d.x0,
+          height: d.y1 - d.y0,
+          stroke: color,
+          fill: color,
+        }}
+      />
+    } 
+  />
+)
 
 const D3Treemap = ({ data, width, height, title }) => {
   const [treemapData, setTreemapData] = useState(null);
@@ -24,17 +50,7 @@ const D3Treemap = ({ data, width, height, title }) => {
   return (
     <svg style={{ backgroundColor: 'white', width, height }}>
       {treemapData && treemapData.leaves().map(d => (
-        <rect style={{
-          x: d.x0,
-          y: d.y0,
-          width: d.x1 - d.x0,
-          height: d.y1 - d.y0,
-          stroke: (d.data.state === true) ? "#D2222D" : "#238823",
-          fill: (d.data.state === true) ? "#D2222D" : "#238823",
-          "fill-opacity": "0.8",
-          "stroke-width": "3",
-          rx: "3",
-        }} />
+        <Node d={d} color={(d.data.state === true) ? "#D2222D" : "#238823"} />
       ))}
       {treemapData && treemapData.leaves().map(d => (
         <text x={d.x0 + 5} y={d.y0 + 20} fontSize='15px' fill='lightgray'>{d.data.name}</text>
