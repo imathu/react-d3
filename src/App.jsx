@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-} from "react-router-dom";
+} from 'react-router-dom';
 import './App.css';
 
 import Home from './components/Home';
@@ -15,9 +15,9 @@ import SankeyExample from './components/Sankey';
 function App() {
   return (
     <>
-    <Router>
-      <Navigation />
-      <Switch>
+      <Router>
+        <Navigation />
+        <Switch>
           <Route exact path="/">
             <Home />
           </Route>
@@ -31,7 +31,7 @@ function App() {
             <SankeyExample />
           </Route>
         </Switch>
-    </Router>
+      </Router>
     </>
   );
 }

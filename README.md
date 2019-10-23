@@ -28,4 +28,15 @@ You will also see any lint errors in the console.
 #> components/Sankey/Sankey.jsx
 ```
 
+# develop
+We use eslint with airbnb styleguide. To lint and automatically fix, run the following command
+## lint
+```
+  #> yarn run lint-fix
+```
+
+## test
+```
+  #> yarn test
+```
 

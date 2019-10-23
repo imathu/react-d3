@@ -1,0 +1,21 @@
+{
+  "jsx": {
+    "formatJSX": true,
+    "formatJSXExpressions": true,
+    "JSXExpressionsSingleLine": true,
+    "attrsOnSameLineAsTag": true,
+    "maxAttrsOnTag": 1,
+    "firstAttributeOnSameLine": false,
+    "spaceInJSXExpressionContainers": "",
+    "alignWithFirstAttribute": false,
+    "closingTagOnNewLine": true,
+    "htmlOptions": {
+      "brace_style": "collapse",
+      "indent_char": " ",
+      "indent_size": 2,
+      "indent_inner_html": true,
+      "max_preserve_newlines": 2,
+      "preserve_newlines": true
+    }
+  }
+}

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { PropTypes } from 'prop-types';
+import uuid from 'uuid';
 import * as d3 from 'd3';
-import { sankey, sankeyLinkHorizontal } from "d3-sankey";
+import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
 import * as chroma from 'chroma-js';
 
 // S3 sankey example for React
@@ -12,22 +13,38 @@ import * as chroma from 'chroma-js';
 
 import './Sankey.css';
 
-const SankeyNode = ({ name, x0, x1, y0, y1, color }) => (
-    <rect x={x0} y={y0} width={x1 - x0} height={y1 - y0} fill={color}>
-      <title>{name}</title>
-    </rect>
-)
+const SankeyNode = ({
+  name, x0, x1, y0, y1, color,
+}) => (
+  <rect x={x0} y={y0} width={x1 - x0} height={y1 - y0} fill={color}>
+    <title>{name}</title>
+  </rect>
+);
+SankeyNode.propTypes = {
+  name: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+  x0: PropTypes.number.isRequired,
+  x1: PropTypes.number.isRequired,
+  y0: PropTypes.number.isRequired,
+  y1: PropTypes.number.isRequired,
+};
 
 const SankeyLink = ({ link, color }) => (
-    <path
-        className="link"
-        d={sankeyLinkHorizontal()(link)}
-        style={{
-            stroke: color,
-            strokeWidth: Math.max(1, link.width),
-        }}
-    />
-)
+  <path
+    className="link"
+    d={sankeyLinkHorizontal()(link)}
+    style={{
+      stroke: color,
+      strokeWidth: Math.max(1, link.width),
+    }}
+  />
+);
+SankeyLink.propTypes = {
+  link: PropTypes.shape({
+    width: PropTypes.number.isRequired,
+  }).isRequired,
+  color: PropTypes.string.isRequired,
+};
 
 const D3Sankey = ({ data, width, height }) => {
   const [sankeyData, setSankeyData] = useState(null);
@@ -35,9 +52,9 @@ const D3Sankey = ({ data, width, height }) => {
   useEffect(() => {
     // initialize d3 sankey layout
     const s = sankey()
-        .nodeWidth(25)
-        .nodePadding(30)
-        .extent([[1, 1], [width - 5, height - 5]])(data);
+      .nodeWidth(25)
+      .nodePadding(30)
+      .extent([[1, 1], [width - 5, height - 5]])(data);
     setSankeyData(s);
   }, [data, width, height]);
 
@@ -52,28 +69,29 @@ const D3Sankey = ({ data, width, height }) => {
 
   return (
     <svg style={{ backgroundColor: 'white', width, height }}>
-        <g style={{ mixBlendMode: 'multiply' }}>
-            {sankeyData.nodes.map((node, i) => (
-            <SankeyNode
-                {...node}
-                color={color(colorScale(i)).hex()}
-                key={node.name}
-            />
-            ))}
-            {sankeyData.links.map((link, i) => (
-            <SankeyLink
-                link={link}
-                color={color(colorScale(link.source.index)).hex()}
-            />
-            ))}
-        </g>
+      <g style={{ mixBlendMode: 'multiply' }}>
+        {sankeyData.nodes.map((node, i) => (
+          <SankeyNode
+            {...node}  // eslint-disable-line
+            color={color(colorScale(i)).hex()}
+            key={node.name}
+          />
+        ))}
+        {sankeyData.links.map((link) => (
+          <SankeyLink
+            link={link}
+            color={color(colorScale(link.source.index)).hex()}
+            key={uuid.v4()}
+          />
+        ))}
+      </g>
     </svg>
-  )
-}
+  );
+};
 D3Sankey.propTypes = {
   data: PropTypes.shape({}).isRequired,
   height: PropTypes.number.isRequired,
   width: PropTypes.number.isRequired,
-}
+};
 
 export default D3Sankey;
