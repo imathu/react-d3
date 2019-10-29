@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`D3Treemap snapshot renders 1`] = `
+<svg
+  style={
+    Object {
+      "backgroundColor": "white",
+      "height": 300,
+      "width": 200,
+    }
+  }
+/>
+`;
